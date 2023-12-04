@@ -241,6 +241,20 @@ void BinaryTree<TreeItemType, FunctionType>::postorder(NodeType *treePtr,
 
 template <typename TreeItemType, typename FunctionType>
 BinaryTree<TreeItemType, FunctionType> BinaryTree<TreeItemType, FunctionType>::makeBinaryTree(const TreeItemType *array, int low, int high) {
+    
+    if (low > high) {
+        return BinaryTree(); // Return an empty tree
+    }
+    int mid = (low + high) / 2;
+    BinaryTree leftSubtree = makeBinaryTree(array, low, mid - 1);
+    BinaryTree rightSubtree = makeBinaryTree(array, mid + 1, high);
+    BinaryTree newTree(array[mid]);
+    newTree.attachLeftSubtree(leftSubtree);
+    newTree.attachRightSubtree(rightSubtree);
+    return newTree;
+
+    // in class implementation causes seg fault stack overflow
+    /*
     std::cout << "low, high = " << low << " " << high << std::endl;
     if (low > high) {
         root = nullptr;
@@ -259,4 +273,5 @@ BinaryTree<TreeItemType, FunctionType> BinaryTree<TreeItemType, FunctionType>::m
     if(!leftTree.isEmpty()) attachLeftSubtree(leftTree);
     if(!rightTree.isEmpty()) attachRightSubtree(rightTree);
     return *this;
+    */
 }
